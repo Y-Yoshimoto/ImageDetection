@@ -1,8 +1,13 @@
 .DS_Store
 # labeldata
-/Annotation/labeldata/export
+/Annotation/labeldata/export/*
 /Annotation/labeldata/label_studio.sqlite3
-/Annotation/labeldata/media
+/Annotation/labeldata/media/*
 
 # None
 /Annotation/mlbackend_c
+
+*.pt
+*.jpg
+yolov8/src/datasets/*
+yolov8/src/runs/*

@@ -1,0 +1,13 @@
+version: "3"
+services:
+  # labelstudio
+  yolov8:
+    image: yolov8
+    build: ./
+    volumes:
+      - ./src:/src/usr/
+      - ./data:/data
+    environment:
+      TZ: "Asia/Tokyo"
+      PYTHONDONTWRITEBYTECODE: 1
+    command: tail -f /dev/null
