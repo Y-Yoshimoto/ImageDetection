@@ -2,10 +2,9 @@
 FROM python:3.11-slim-bullseye
 LABEL maintaner='y-yoshimoto'
 
-# gccインストール
+# gcc,OpenCVインストールインストール
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gcc python3-dev \
-    # OpenCVインストール
     libgl1-mesa-dev libglib2.0-0\
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*
@@ -17,9 +16,12 @@ RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \
     && pip freeze > requirements.lock
 
-#RUN pip install --upgrade pip
-
-WORKDIR /src/usr
+# ユーザー作成
+RUN useradd -m -s /bin/bash -u 501 -g 20 run
+# 作業ディレクトリ設定
+COPY ./src/ /usr/src
+WORKDIR /usr/src
+USER run
 
 # /usr/local/lib/python3.11/site-packages
 

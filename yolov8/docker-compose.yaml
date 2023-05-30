@@ -3,9 +3,11 @@ services:
   # labelstudio
   yolov8:
     image: yolov8
-    build: ./
+    build:
+      context: .
+      dockerfile: ./Dockerfile_simple
     volumes:
-      - ./src:/src/usr/
+      - ./src:/usr/src
       - ./data:/data
     environment:
       TZ: "Asia/Tokyo"
