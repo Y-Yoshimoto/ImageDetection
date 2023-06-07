@@ -1,4 +1,9 @@
 .DS_Store
+# 画像データ
+*.jpg
+*.jpeg
+*.png
+
 # ラベルデータ
 /Annotation/labeldata/export/*
 /Annotation/labeldata/label_studio.sqlite3
@@ -16,9 +21,9 @@
 /Annotation/mlbackend_c
 # YOLOv8関連ファイル
 *.pt
-*.jpg
-yolov8/src/datasets/*
-yolov8/src/runs/*
-yolov8/src/train/project
+/yolov8/src/datasets/*
+/yolov8/src/runs/*
+/yolov8/src/training/project/*
 data.yaml
+
 

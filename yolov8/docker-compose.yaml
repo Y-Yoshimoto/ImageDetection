@@ -6,9 +6,13 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        USER_ID: ${UID}
+        GROUP_ID: ${GID}
+    user: "${UID}:${GID}"
     volumes:
-      - ./src:/usr/src
-      - ./data:/data
+      - ./src:/usr/src/
+      - ../Data:/data/
     environment:
       TZ: "Asia/Tokyo"
       PYTHONDONTWRITEBYTECODE: 1

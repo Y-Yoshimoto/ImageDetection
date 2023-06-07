@@ -9,12 +9,12 @@ class TrainYolov8:
         self.model = YOLO(baseModel)
         self.data = data
         
-    def trainSinpleFlows(self, epochs: int=100, batch:int=8, project: str="project"):
+    def trainSinpleFlows(self, epochs: int=100, patience: int=20, batch:int=6, project: str="project"):
         """ 学習評価出力フロー """
         
         # 学習
         ptime = self.processing_time()
-        self.trainsingle(epochs=epochs, batch=batch, project=project)
+        self.trainsingle(epochs=epochs, batch=batch, val=True, project=project)
         
         # 評価
         metrics = self.val()
@@ -35,7 +35,7 @@ class TrainYolov8:
         print(f'Total time={ (totaltime/3600):.3f} [h]')
         
         
-    def trainsingle(self, epochs: int=100, batch:int=1, val: bool=True, project: str="project"):
+    def trainsingle(self, epochs: int, batch:int, val: bool, project: str):
         """ 学習を実行する """
         self.model.train(data=self.data, epochs=epochs, batch=batch, val=val, project=project)
         
@@ -81,7 +81,7 @@ def main():
     # 学習用のYOLOv8クラス
     trainYolov8 = TrainYolov8(data)
     # 学習評価出力フロー
-    trainYolov8.trainSinpleFlows()
+    trainYolov8.trainSinpleFlows(epochs=100, patience=20)
     
 if __name__ == '__main__':
     main()

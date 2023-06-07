@@ -1,0 +1,6 @@
+train: /data/annotations/dogcat/images
+val: /data/annotations/dogcat/images
+test: /data/annotations/dogcat/images
+
+nc: 2
+names: ["Dog", "Cat"]
