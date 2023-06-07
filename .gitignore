@@ -1,13 +1,24 @@
 .DS_Store
-# labeldata
+# ラベルデータ
 /Annotation/labeldata/export/*
 /Annotation/labeldata/label_studio.sqlite3
 /Annotation/labeldata/media/*
 
+# Dataディレクトリ
+/Data/*
+# Data/annotationsディレクトリ
+!/Data/annotations/
+/Data/annotations/*
+!/Data/annotations/rename.sh
+!/Data/.gitkeep
+
 # None
 /Annotation/mlbackend_c
-
+# YOLOv8関連ファイル
 *.pt
 *.jpg
 yolov8/src/datasets/*
 yolov8/src/runs/*
+yolov8/src/train/project
+data.yaml
+

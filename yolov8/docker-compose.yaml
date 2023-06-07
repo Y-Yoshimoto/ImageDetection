@@ -5,7 +5,7 @@ services:
     image: yolov8
     build:
       context: .
-      dockerfile: ./Dockerfile_simple
+      dockerfile: ./Dockerfile
     volumes:
       - ./src:/usr/src
       - ./data:/data

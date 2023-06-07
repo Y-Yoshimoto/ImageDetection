@@ -8,11 +8,11 @@ services:
       - 8080:8080
     volumes:
       - ./labeldata:/label-studio/data
-      - ./localImage:/localImage
+      - ../Data:/data
     environment:
       TZ: ${TZ}
       LABEL_STUDIO_LOCAL_FILES_SERVING_ENABLED: true
-      LABEL_STUDIO_LOCAL_FILES_DOCUMENT_ROOT: /localImage
+      LABEL_STUDIO_LOCAL_FILES_DOCUMENT_ROOT: /data
       LABEL_STUDIO_HOST: http://localhost/labelstudio/
     command: label-studio start --username test@test.com --password password
   # rproxy
