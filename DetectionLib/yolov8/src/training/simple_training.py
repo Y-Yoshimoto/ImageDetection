@@ -10,9 +10,7 @@ import os
 import glob
 # yaml読み込み
 import yaml
-# 標準出力抑止
-import contextlib
-import io
+
 
 class TrainYolov8:
     def __init__(self, data: str="./data.yaml", baseModel:str="yolov8n.pt"):
@@ -34,7 +32,7 @@ class TrainYolov8:
         self._printVal(metrics)
         
         # テストデータの結果画像出力
-        self.testPredict()
+        #self.testPredict()
         
         # ONNX形式でモデルをエクスポート
         #self.exportONNX()
@@ -47,6 +45,9 @@ class TrainYolov8:
         print(f'Total time={(totaltime) : .3f})[s]')
         print(f'Total time {(totaltime/60) : .3f}[m]')
         print(f'Total time={ (totaltime/3600):.3f} [h]')
+        
+        # テストデータの結果画像出力
+        self.testPredict()
         
     def trainsingle(self, epochs: int, batch:int, val: bool, project: str, exist_ok: bool=False):
         """ 学習を実行する """
@@ -96,11 +97,13 @@ class TrainYolov8:
         projectDir=f'./{self._train_args("project")}/test'
         os.makedirs(projectDir, exist_ok=True)
         # testデータ抽出
-        testImages=self._loadImages(yamlpath=self._train_args("data"), key=datakey)
+        #testImages=self._loadImages(yamlpath=self._train_args("data"), key=datakey)
+        testImages=self._loadImages(yamlpath="./data.yaml", key=datakey)
+        print(self.model.ckpt["train_args"])
         # 推論実行/結果保存
         for filepath,filename in testImages:
             #cv2.imwrite(f'{projectDir}/{filename}', self.model.predict(filepath)[0].plot())
-            cv2.imwrite(f'{projectDir}/{filename}', self._silentPredict(filepath)[0].plot())
+            cv2.imwrite(f'{projectDir}/re_{filename}', self._silentPredict(filepath)[0].plot())
 
     def _loadAnnotationDir(self, yamlpath: str="./data.yaml",key='test'):
         """ アノテーションデータの保存場所を返す """
@@ -119,24 +122,23 @@ class TrainYolov8:
         return self.model.ckpt["train_args"][key]
     
     def _silentPredict(self, filepath: str):
+        """ 結果を表示せずに推論を実行する """
         return self.model.predict(filepath,verbose=False)
-        #with contextlib.redirect_stdout(io.StringIO()):
-        #    return self.model.predict(filepath)
-
+    
 def main():
     """ メイン関数 """
     # 学習データ
     data = "./data.yaml"
     # ベースモデル
-    baseModel = "./Detect/train/weights/best.pt"
+    #baseModel = "./Detect/train/weights/best.pt"
+    baseModel = "yolov8n-seg.pt"
     # 学習用のYOLOv8クラス
     #trainYolov8 = TrainYolov8(data)
     trainYolov8 = TrainYolov8(data=data,baseModel=baseModel)
     
     # 学習評価出力フロー
-    #trainYolov8.trainSinpleFlows(epochs=1, patience=20, project="project2")
-    #trainYolov8.trainSinpleFlows(epochs=1, patience=20, project="project2", exist_ok=True)
-    trainYolov8.testPredict()
+    #trainYolov8.trainSinpleFlows(epochs=300, patience=20, project="Segmentation")
+    trainYolov8.trainSinpleFlows(epochs=1, patience=20, project="project2", exist_ok=True)
     
 if __name__ == '__main__':
     main()
